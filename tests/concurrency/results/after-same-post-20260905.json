@@ -1,0 +1,2633 @@
+{
+  "label": "after_live",
+  "wrapper": "same_post",
+  "startedAt": "2026-09-05T20:06:35.416Z",
+  "setup": "/private/tmp/aita-pg-runtime/baseline_setup.sql",
+  "migrations": [
+    "supabase_advice_transfer_v4_gist_migration.sql",
+    "supabase_advice_transfer_same_post_migration.sql",
+    "supabase_advice_transfer_opinion_difficulty_migration.sql",
+    "supabase_advice_transfer_leading_label_only_patch.sql",
+    "supabase_advice_transfer_concurrency_upgrade_checked.sql",
+    "supabase_advice_transfer_concurrency_upgrade_checked.sql"
+  ],
+  "transport": "native PostgreSQL TCP; one independently connected anon backend per concurrent operation; all connected before burst",
+  "statementTimeoutMs": 3000,
+  "sourceSha256": {
+    "setup": "4e68a28805a23610adb62ecb0aed976e24d222eba8bdbcb04b11ec3b361d15b0",
+    "migrations": [
+      "8141d12adc08c812265440494cae368199fece1f0b1171582a9eb13a913d4701",
+      "697b2c1fcafb60535b1d1581fbffef904649c2c1c14e21a797193780ae0c13c8",
+      "3a12826e1728bc19906cb15f23a5ecd9d181b495f31e35fe56c1f6e48568271c",
+      "ccf0ea375a8e7120e9c6cf2c2915311c14a860f5489bc239fa0c33d6e267d9d8",
+      "5d88f6eef2bde578c99c50db4c0ab5013b96ce6acd1ad121ea102bf4b6b0aabc",
+      "5d88f6eef2bde578c99c50db4c0ab5013b96ce6acd1ad121ea102bf4b6b0aabc"
+    ]
+  },
+  "tests": [
+    {
+      "name": "simultaneous_100_new_arrivals",
+      "independentConnections": 100,
+      "wallMs": 2279,
+      "count": 100,
+      "success": 100,
+      "errors": 0,
+      "p50Ms": 935.4,
+      "p95Ms": 2135.3,
+      "p99Ms": 2258.5,
+      "maxMs": 2258.5,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 100
+      },
+      "byOperation": {
+        "claim": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 935.4,
+          "p95Ms": 2135.3,
+          "p99Ms": 2258.5,
+          "maxMs": 2258.5,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 58,
+        "lockRetries": 0,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 260.8
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "arrivals_100_balance",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 100,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 0,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "simultaneous_200_new_arrivals",
+      "independentConnections": 200,
+      "wallMs": 2307,
+      "count": 200,
+      "success": 200,
+      "errors": 0,
+      "p50Ms": 1276.8,
+      "p95Ms": 2173.4,
+      "p99Ms": 2245,
+      "maxMs": 2255.6,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 100,
+        "waiting": 100
+      },
+      "byOperation": {
+        "claim": {
+          "count": 200,
+          "success": 200,
+          "errors": 0,
+          "p50Ms": 1276.8,
+          "p95Ms": 2173.4,
+          "p99Ms": 2245,
+          "maxMs": 2255.6,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 100,
+            "waiting": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 158,
+        "lockRetries": 0,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 262.4
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "arrivals_200_balance",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 100,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 100,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "simultaneous_500_new_arrivals",
+      "independentConnections": 500,
+      "wallMs": 4307,
+      "count": 500,
+      "success": 500,
+      "errors": 0,
+      "p50Ms": 1710.6,
+      "p95Ms": 2487.8,
+      "p99Ms": 3598.5,
+      "maxMs": 4108.4,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 100,
+        "waiting": 400
+      },
+      "byOperation": {
+        "claim": {
+          "count": 500,
+          "success": 500,
+          "errors": 0,
+          "p50Ms": 1710.6,
+          "p95Ms": 2487.8,
+          "p99Ms": 3598.5,
+          "maxMs": 4108.4,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 100,
+            "waiting": 400
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 477,
+        "lockRetries": 0,
+        "maxAttempts": 3,
+        "firstAttemptP95Ms": 295.2
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "arrivals_500_balance",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 100,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 400,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "initial_100",
+      "independentConnections": 100,
+      "wallMs": 2169,
+      "count": 100,
+      "success": 100,
+      "errors": 0,
+      "p50Ms": 1052.3,
+      "p95Ms": 2122.7,
+      "p99Ms": 2152.3,
+      "maxMs": 2152.3,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 100
+      },
+      "byOperation": {
+        "claim": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 1052.3,
+          "p95Ms": 2122.7,
+          "p99Ms": 2152.3,
+          "maxMs": 2152.3,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 58,
+        "lockRetries": 0,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 260.5
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "100_heartbeats_100_drafts_200_new_arrivals",
+      "independentConnections": 400,
+      "wallMs": 2395,
+      "count": 400,
+      "success": 400,
+      "errors": 0,
+      "p50Ms": 1146.3,
+      "p95Ms": 2147.2,
+      "p99Ms": 2272.7,
+      "maxMs": 2289.4,
+      "errorCodes": {},
+      "statuses": {
+        "claimed": 200,
+        "waiting": 200
+      },
+      "byOperation": {
+        "heartbeat": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 882.9,
+          "p95Ms": 2140.7,
+          "p99Ms": 2272.7,
+          "maxMs": 2272.7,
+          "errorCodes": {},
+          "statuses": {
+            "claimed": 100
+          }
+        },
+        "draft": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 1304,
+          "p95Ms": 2213.6,
+          "p99Ms": 2289.4,
+          "maxMs": 2289.4,
+          "errorCodes": {},
+          "statuses": {
+            "claimed": 100
+          }
+        },
+        "claim": {
+          "count": 200,
+          "success": 200,
+          "errors": 0,
+          "p50Ms": 1201.7,
+          "p95Ms": 2131.4,
+          "p99Ms": 2251.5,
+          "maxMs": 2275.5,
+          "errorCodes": {},
+          "statuses": {
+            "waiting": 200
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 140,
+        "lockRetries": 122,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 292
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "mixed_balance",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 100,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 200,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "100_phase1_saves",
+      "independentConnections": 100,
+      "wallMs": 83,
+      "count": 100,
+      "success": 100,
+      "errors": 0,
+      "p50Ms": 61.1,
+      "p95Ms": 64.9,
+      "p99Ms": 65.5,
+      "maxMs": 65.5,
+      "errorCodes": {},
+      "statuses": {
+        "true": 100
+      },
+      "byOperation": {
+        "phase1": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 61.1,
+          "p95Ms": 64.9,
+          "p99Ms": 65.5,
+          "maxMs": 65.5,
+          "errorCodes": {},
+          "statuses": {
+            "true": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 64.9
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "100_phase2_saves",
+      "independentConnections": 100,
+      "wallMs": 88,
+      "count": 100,
+      "success": 100,
+      "errors": 0,
+      "p50Ms": 65.5,
+      "p95Ms": 69.5,
+      "p99Ms": 69.8,
+      "maxMs": 69.8,
+      "errorCodes": {},
+      "statuses": {
+        "true": 100
+      },
+      "byOperation": {
+        "phase2": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 65.5,
+          "p95Ms": 69.5,
+          "p99Ms": 69.8,
+          "maxMs": 69.8,
+          "errorCodes": {},
+          "statuses": {
+            "true": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 69.5
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "100_finals_with_100_duplicate_retries_and_100_heartbeats",
+      "independentConnections": 300,
+      "wallMs": 2346,
+      "count": 300,
+      "success": 300,
+      "errors": 0,
+      "p50Ms": 1038.3,
+      "p95Ms": 2197.7,
+      "p99Ms": 2274.8,
+      "maxMs": 2278.2,
+      "errorCodes": {},
+      "statuses": {
+        "submitted": 265,
+        "claimed": 35
+      },
+      "byOperation": {
+        "final": {
+          "count": 200,
+          "success": 200,
+          "errors": 0,
+          "p50Ms": 1079.5,
+          "p95Ms": 2184.6,
+          "p99Ms": 2261.5,
+          "maxMs": 2277.4,
+          "errorCodes": {},
+          "statuses": {
+            "submitted": 200
+          }
+        },
+        "heartbeat": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 1033.1,
+          "p95Ms": 2222.5,
+          "p99Ms": 2278.2,
+          "maxMs": 2278.2,
+          "errorCodes": {},
+          "statuses": {
+            "submitted": 65,
+            "claimed": 35
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 177,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 281
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "completion_exact_20x5",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 100,
+        "submissions": 100,
+        "tokens": 100,
+        "waiters": 200,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true,
+        "submissions": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "100_refreshes_changed_session",
+      "independentConnections": 100,
+      "wallMs": 2202,
+      "count": 100,
+      "success": 100,
+      "errors": 0,
+      "p50Ms": 221.6,
+      "p95Ms": 2133.9,
+      "p99Ms": 2184.3,
+      "maxMs": 2184.3,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 100
+      },
+      "byOperation": {
+        "claim": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 221.6,
+          "p95Ms": 2133.9,
+          "p99Ms": 2184.3,
+          "maxMs": 2184.3,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 39,
+        "lockRetries": 0,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 261.9
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "resume_deduplication",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 100,
+        "submissions": 100,
+        "tokens": 100,
+        "waiters": 200,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true,
+        "submissions": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 5,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "50_same_pid_simultaneous_claims",
+      "independentConnections": 50,
+      "wallMs": 230,
+      "count": 50,
+      "success": 50,
+      "errors": 0,
+      "p50Ms": 116.9,
+      "p95Ms": 213.3,
+      "p99Ms": 222.3,
+      "maxMs": 222.3,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 50
+      },
+      "byOperation": {
+        "claim": {
+          "count": 50,
+          "success": 50,
+          "errors": 0,
+          "p50Ms": 116.9,
+          "p95Ms": 213.3,
+          "p99Ms": 222.3,
+          "maxMs": 222.3,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 50
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 213.3
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "same_pid_deduplication",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 1,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 0,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 0,
+          "pending": 0,
+          "valid": 0,
+          "available": 5,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "fill_100_for_replacement",
+      "independentConnections": 100,
+      "wallMs": 2276,
+      "count": 100,
+      "success": 100,
+      "errors": 0,
+      "p50Ms": 912.5,
+      "p95Ms": 2151.1,
+      "p99Ms": 2258.6,
+      "maxMs": 2258.6,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 100
+      },
+      "byOperation": {
+        "claim": {
+          "count": 100,
+          "success": 100,
+          "errors": 0,
+          "p50Ms": 912.5,
+          "p95Ms": 2151.1,
+          "p99Ms": 2258.6,
+          "maxMs": 2258.6,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 100
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 57,
+        "lockRetries": 0,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 266.6
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "revive_expired_via_heartbeat",
+      "independentConnections": 1,
+      "wallMs": 3,
+      "count": 1,
+      "success": 1,
+      "errors": 0,
+      "p50Ms": 2.6,
+      "p95Ms": 2.6,
+      "p99Ms": 2.6,
+      "maxMs": 2.6,
+      "errorCodes": {},
+      "statuses": {
+        "claimed": 1
+      },
+      "byOperation": {
+        "heartbeat": {
+          "count": 1,
+          "success": 1,
+          "errors": 0,
+          "p50Ms": 2.6,
+          "p95Ms": 2.6,
+          "p99Ms": 2.6,
+          "maxMs": 2.6,
+          "errorCodes": {},
+          "statuses": {
+            "claimed": 1
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 2.6
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "newcomer_after_revived_standby",
+      "independentConnections": 1,
+      "wallMs": 7,
+      "count": 1,
+      "success": 1,
+      "errors": 0,
+      "p50Ms": 6.2,
+      "p95Ms": 6.2,
+      "p99Ms": 6.2,
+      "maxMs": 6.2,
+      "errorCodes": {},
+      "statuses": {
+        "waiting": 1
+      },
+      "byOperation": {
+        "claim": {
+          "count": 1,
+          "success": 1,
+          "errors": 0,
+          "p50Ms": 6.2,
+          "p95Ms": 6.2,
+          "p99Ms": 6.2,
+          "maxMs": 6.2,
+          "errorCodes": {},
+          "statuses": {
+            "waiting": 1
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 6.2
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "revived_standby_priority",
+      "ok": true,
+      "revived": {
+        "reservation_kind": "quota",
+        "quota_token_id": "35a6f285-09ca-46ff-a935-8afd2deba502"
+      }
+    },
+    {
+      "name": "200_arrivals_replace_20_expired_slots",
+      "independentConnections": 200,
+      "wallMs": 2289,
+      "count": 200,
+      "success": 200,
+      "errors": 0,
+      "p50Ms": 1261.9,
+      "p95Ms": 2145.8,
+      "p99Ms": 2231.3,
+      "maxMs": 2249.2,
+      "errorCodes": {},
+      "statuses": {
+        "waiting": 180,
+        "assigned": 20
+      },
+      "byOperation": {
+        "claim": {
+          "count": 200,
+          "success": 200,
+          "errors": 0,
+          "p50Ms": 1261.9,
+          "p95Ms": 2145.8,
+          "p99Ms": 2231.3,
+          "maxMs": 2249.2,
+          "errorCodes": {},
+          "statuses": {
+            "waiting": 180,
+            "assigned": 20
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 144,
+        "lockRetries": 0,
+        "maxAttempts": 2,
+        "firstAttemptP95Ms": 270.3
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "replacement_exact_20x5",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 120,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 181,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true,
+        "assignments": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 5,
+          "pending": 0,
+          "valid": 0,
+          "available": 0,
+          "standby": 0
+        }
+      ]
+    },
+    {
+      "name": "seed_event_participant",
+      "independentConnections": 1,
+      "wallMs": 9,
+      "count": 1,
+      "success": 1,
+      "errors": 0,
+      "p50Ms": 7.4,
+      "p95Ms": 7.4,
+      "p99Ms": 7.4,
+      "maxMs": 7.4,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 1
+      },
+      "byOperation": {
+        "claim": {
+          "count": 1,
+          "success": 1,
+          "errors": 0,
+          "p50Ms": 7.4,
+          "p95Ms": 7.4,
+          "p99Ms": 7.4,
+          "maxMs": 7.4,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 1
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 7.4
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "30_identical_comprehension_event_retries",
+      "independentConnections": 30,
+      "wallMs": 39,
+      "count": 30,
+      "success": 30,
+      "errors": 0,
+      "p50Ms": 20.4,
+      "p95Ms": 34.2,
+      "p99Ms": 35.1,
+      "maxMs": 35.1,
+      "errorCodes": {},
+      "statuses": {
+        "claimed": 30
+      },
+      "byOperation": {
+        "failure_event": {
+          "count": 30,
+          "success": 30,
+          "errors": 0,
+          "p50Ms": 20.4,
+          "p95Ms": 34.2,
+          "p99Ms": 35.1,
+          "maxMs": 35.1,
+          "errorCodes": {},
+          "statuses": {
+            "claimed": 30
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 34.2
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "comprehension_once",
+      "ok": true,
+      "saved": {
+        "status": "claimed",
+        "comprehension_failures": 1,
+        "event_count": 1
+      }
+    },
+    {
+      "name": "seed_two_participants",
+      "independentConnections": 2,
+      "wallMs": 16,
+      "count": 2,
+      "success": 2,
+      "errors": 0,
+      "p50Ms": 14,
+      "p95Ms": 14,
+      "p99Ms": 14,
+      "maxMs": 14,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 2
+      },
+      "byOperation": {
+        "claim": {
+          "count": 2,
+          "success": 2,
+          "errors": 0,
+          "p50Ms": 14,
+          "p95Ms": 14,
+          "p99Ms": 14,
+          "maxMs": 14,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 2
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 14
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "one_blocked_participant_20_unrelated_claims_heartbeats",
+      "independentConnections": 40,
+      "wallMs": 225,
+      "count": 40,
+      "success": 40,
+      "errors": 0,
+      "p50Ms": 148,
+      "p95Ms": 212.8,
+      "p99Ms": 219.1,
+      "maxMs": 219.1,
+      "errorCodes": {},
+      "statuses": {
+        "assigned": 20,
+        "claimed": 20
+      },
+      "byOperation": {
+        "claim": {
+          "count": 20,
+          "success": 20,
+          "errors": 0,
+          "p50Ms": 154.8,
+          "p95Ms": 219.1,
+          "p99Ms": 219.1,
+          "maxMs": 219.1,
+          "errorCodes": {},
+          "statuses": {
+            "assigned": 20
+          }
+        },
+        "heartbeat": {
+          "count": 20,
+          "success": 20,
+          "errors": 0,
+          "p50Ms": 148,
+          "p95Ms": 206.6,
+          "p99Ms": 206.6,
+          "maxMs": 206.6,
+          "errorCodes": {},
+          "statuses": {
+            "claimed": 20
+          }
+        }
+      },
+      "retrySummary": {
+        "busyResponses": 0,
+        "lockRetries": 0,
+        "maxAttempts": 1,
+        "firstAttemptP95Ms": 212.8
+      },
+      "errorExamples": []
+    },
+    {
+      "name": "intentional_single_participant_timeout",
+      "blocked": {
+        "error": "55P03",
+        "message": "canceling statement due to lock timeout"
+      }
+    },
+    {
+      "name": "blocked_row_balance",
+      "type": "invariants",
+      "ok": true,
+      "counts": {
+        "assignments": 22,
+        "submissions": 0,
+        "tokens": 100,
+        "waiters": 0,
+        "duplicate_participants": 0,
+        "token_owner_mismatches": 0
+      },
+      "checks": {
+        "twentyCells": true,
+        "fiveTokensPerCell": true,
+        "quotaInvariant": true,
+        "noDuplicateParticipants": true,
+        "consistentTokenOwners": true
+      },
+      "cells": [
+        {
+          "pair": 1,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 1,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 2,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 3,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 4,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 5,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 6,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "ai",
+          "reserved": 2,
+          "pending": 0,
+          "valid": 0,
+          "available": 3,
+          "standby": 0
+        },
+        {
+          "pair": 7,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 8,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "ai",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 9,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "ai",
+          "reserved": 2,
+          "pending": 0,
+          "valid": 0,
+          "available": 3,
+          "standby": 0
+        },
+        {
+          "pair": 10,
+          "condition": "human",
+          "reserved": 1,
+          "pending": 0,
+          "valid": 0,
+          "available": 4,
+          "standby": 0
+        }
+      ]
+    }
+  ],
+  "server": {
+    "version": "PostgreSQL 17.9 on x86_64-apple-darwin24.6.0, compiled by Apple clang version 17.0.0 (clang-1700.6.3.2), 64-bit",
+    "max_connections": "650"
+  },
+  "finishedAt": "2026-09-05T20:07:03.854Z",
+  "failedChecks": 0
+}

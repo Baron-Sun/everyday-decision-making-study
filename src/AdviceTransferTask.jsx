@@ -1,3 +1,5 @@
+import { admissionWait, jitterDelay, newComprehensionEvent, restoreComprehensionEvent, supabaseRpcWithRetry, supabaseRpcKeepalive } from "./advice-transfer-network.mjs";
+export { supabaseRpcWithRetry } from "./advice-transfer-network.mjs";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ADVICE_TRANSFER_CONSENT_TEXT } from "./advice-transfer-consent";
 import LegacyAdviceTransferTask from "./LegacyAdviceTransferTask.jsx";
@@ -167,95 +169,6 @@ const getCompletion = () => {
     code,
     url: `${PROLIFIC_COMPLETION_BASE_URL}?cc=${encodeURIComponent(code)}`,
   };
-};
-
-const supabaseRpc = async (config, functionName, payload, timeoutMs = 12_000) => {
-  let response;
-  const controller = new AbortController();
-  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    response = await fetch(`${config.url}/rest/v1/rpc/${functionName}`, {
-      method: "POST",
-      headers: {
-        apikey: config.anonKey,
-        Authorization: `Bearer ${config.anonKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-  } catch (networkError) {
-    const error = new Error(
-      networkError?.name === "AbortError"
-        ? "The study database is taking longer than expected to respond."
-        : "The study database could not be reached.",
-    );
-    error.retryable = true;
-    error.cause = networkError;
-    throw error;
-  } finally {
-    window.clearTimeout(timeoutId);
-  }
-
-  const responseText = await response.text();
-  let data = null;
-  try {
-    data = responseText ? JSON.parse(responseText) : null;
-  } catch {
-    data = null;
-  }
-  if (!response.ok) {
-    const error = new Error(
-      data?.message || `The study database returned HTTP ${response.status}.`,
-    );
-    error.status = response.status;
-    error.code = data?.code || "";
-    error.retryable =
-      response.status === 408 ||
-      response.status === 409 ||
-      response.status === 425 ||
-      response.status === 429 ||
-      response.status >= 500 ||
-      ["40001", "40P01", "55P03", "57014"].includes(error.code);
-    throw error;
-  }
-  if (data === null) {
-    const error = new Error("The study database returned an incomplete response.");
-    error.retryable = true;
-    throw error;
-  }
-  return data;
-};
-
-const supabaseRpcKeepalive = (config, functionName, payload) =>
-  fetch(`${config.url}/rest/v1/rpc/${functionName}`, {
-    method: "POST",
-    keepalive: true,
-    headers: {
-      apikey: config.anonKey,
-      Authorization: `Bearer ${config.anonKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  }).catch(() => undefined);
-
-export const supabaseRpcWithRetry = async (
-  config,
-  functionName,
-  payload,
-  delays = SUBMIT_RETRY_DELAYS_MS,
-) => {
-  let lastError;
-  for (const delay of delays) {
-    if (delay) await wait(delay);
-    try {
-      return await supabaseRpc(config, functionName, payload);
-    } catch (error) {
-      lastError = error;
-      if (!error?.retryable) throw error;
-    }
-  }
-  throw lastError || new Error("The study database could not be reached.");
 };
 
 export const validateAdviceTransferAssignment = (value) => {
@@ -554,6 +467,8 @@ export default function AdviceTransferTask() {
   const [comprehensionAttempts, setComprehensionAttempts] = useState(0);
   const [comprehensionError, setComprehensionError] = useState("");
   const [comprehensionSaving, setComprehensionSaving] = useState(false);
+  const pendingComprehensionRef = useRef(null);
+  const comprehensionInFlight = useRef(false);
   const [commentLabels, setCommentLabels] = useState(["", "", "", "", ""]);
   const [gistText, setGistText] = useState("");
   const [gistDifficulty, setGistDifficulty] = useState(null);
@@ -612,6 +527,7 @@ export default function AdviceTransferTask() {
       screen,
       agreed,
       comprehension,
+      pendingComprehension: pendingComprehensionRef.current,
       commentJudgments: judgmentsFor(assignment, commentLabels),
       gistText,
       gistDifficulty,
@@ -641,6 +557,7 @@ export default function AdviceTransferTask() {
     screen,
     agreed,
     comprehension,
+    comprehensionSaving,
     commentLabels,
     gistText,
     gistDifficulty,
@@ -666,6 +583,7 @@ export default function AdviceTransferTask() {
     timings: { ...draft.timings, ...timing.read() },
     pendingStage: pendingStageRef.current,
     pendingSubmission: pendingSubmissionRef.current,
+    pendingComprehension: pendingComprehensionRef.current,
   } : null;
 
   const applyServerSnapshots = (response, currentAssignment = assignment) => {
@@ -777,7 +695,7 @@ export default function AdviceTransferTask() {
               reconnecting: true,
             }));
             setScreen("waiting");
-            await wait(3_000);
+            await wait(jitterDelay(3_000));
             continue;
           }
           setError(
@@ -790,26 +708,12 @@ export default function AdviceTransferTask() {
         }
 
         if (!active) return;
-        if (response?.admissionStatus === "waiting") {
-          setWaitingInfo({
-            queuePosition: Number(response.queuePosition) || 1,
-            waitedSeconds: Number(response.waitedSeconds) || 0,
-            reconnecting: false,
-          });
+        if (response?.admissionStatus === "waiting" || response?.admissionStatus === "closed") {
+          const waiting = admissionWait(response);
+          setWaitingInfo(waiting.info);
           setScreen("waiting");
-          const retryAfter = Math.max(
-            2_000,
-            Math.min(15_000, Number(response.retryAfterMs) || 3_000),
-          );
-          await wait(retryAfter + Math.floor(Math.random() * 400));
+          await wait(waiting.delay);
           continue;
-        }
-        if (response?.admissionStatus === "closed") {
-          setError(
-            "This study is not accepting new sessions right now. Please return to Prolific.",
-          );
-          setScreen("error");
-          return;
         }
         break;
       }
@@ -837,7 +741,10 @@ export default function AdviceTransferTask() {
           setDraftReady(true);
           setScreen("complete");
         } else {
-          const restored = restoreV4Draft(response, [response.draftPayload, readLocalDraft(participant)]);
+          const localDraft = readLocalDraft(participant);
+          const restored = restoreV4Draft(response, [response.draftPayload, localDraft]);
+          pendingComprehensionRef.current = restoreComprehensionEvent(response.assignmentId, [localDraft, response.draftPayload]);
+          if (pendingComprehensionRef.current) setComprehensionError("Reconnecting to confirm your previous answer.");
           setAgreed(restored.agreed);
           setComprehension(restored.comprehension);
           setCommentLabels(labelsFromJudgments(response, restored.commentJudgments));
@@ -946,8 +853,14 @@ export default function AdviceTransferTask() {
       }
     };
 
-    heartbeat();
-    const intervalId = window.setInterval(heartbeat, HEARTBEAT_INTERVAL_MS);
+    let intervalId;
+    const scheduleHeartbeat = () => {
+      intervalId = window.setTimeout(async () => {
+        await heartbeat();
+        if (active) scheduleHeartbeat();
+      }, jitterDelay(HEARTBEAT_INTERVAL_MS));
+    };
+    scheduleHeartbeat();
     const onOnline = () => heartbeat();
     const onVisibilityChange = () => {
       if (document.visibilityState === "visible") heartbeat();
@@ -956,7 +869,7 @@ export default function AdviceTransferTask() {
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => {
       active = false;
-      window.clearInterval(intervalId);
+      window.clearTimeout(intervalId);
       window.removeEventListener("online", onOnline);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
@@ -1117,37 +1030,45 @@ export default function AdviceTransferTask() {
   };
 
   const handleComprehension = async (selectedOption) => {
-    if (!selectedOption || comprehensionSaving || phase1ReadOnly) return;
-    if (selectedOption === CORRECT_COMPREHENSION) {
+    if (!assignment || assignment.status !== "claimed" || !selectedOption || comprehensionInFlight.current || phase1ReadOnly) return;
+    if (selectedOption === CORRECT_COMPREHENSION && !pendingComprehensionRef.current) {
       setComprehension(selectedOption);
       setComprehensionError("");
       setTimestamps((current) => ({ ...current, comprehensionPassedAt: current.comprehensionPassedAt || nowIso() }));
       return;
     }
 
+    comprehensionInFlight.current = true;
+    const event = pendingComprehensionRef.current || newComprehensionEvent(selectedOption);
+    pendingComprehensionRef.current = event;
     setComprehensionSaving(true);
     setComprehension("");
     setComprehensionError("");
+    writeLocalDraft(assignment.participant, { ...freshDraft(), comprehension: "", pendingComprehension: event });
     try {
-      const result = await supabaseRpc(
+      const result = await supabaseRpcWithRetry(
         assignment.config,
         "record_advice_transfer_comprehension_failure",
         {
           p_assignment_id: assignment.assignmentId,
-          p_selected_option: selectedOption,
+          p_selected_option: event.selectedOption,
           p_payload: {
             schemaVersion: SCHEMA_VERSION,
-            occurredAt: nowIso(),
+            clientEventId: event.clientEventId,
+            occurredAt: event.occurredAt,
             participant: assignment.participant,
           },
         },
       );
-      const failures = Number(result.comprehensionFailures) || comprehensionAttempts + 1;
+      const failures = Number(result.comprehensionFailures);
+      if (!Number.isInteger(failures) || failures < 1 || !["claimed", "screened_out"].includes(result.status)) {
+        throw new Error("The comprehension-check result could not yet be confirmed.");
+      }
+      pendingComprehensionRef.current = null;
+      writeLocalDraft(assignment.participant, { ...freshDraft(), comprehension: "", pendingComprehension: null });
       const screenedOut = Boolean(result.screenedOut) || failures >= 2;
       setComprehensionAttempts(failures);
-      setAssignment((current) =>
-        current ? { ...current, status: result.status || current.status } : current,
-      );
+      setAssignment((current) => current ? { ...current, status: result.status || current.status } : current);
       if (screenedOut) {
         clearLocalDraft(assignment.participant);
         setDraftReady(false);
@@ -1158,15 +1079,29 @@ export default function AdviceTransferTask() {
       setComprehensionError("Incorrect. Please read the instructions and try once more.");
       window.alert("Incorrect. Please read the instructions and try once more.");
     } catch (saveError) {
-      setComprehensionError(
-        saveError instanceof Error
-          ? saveError.message
-          : "The comprehension-check result could not be saved.",
-      );
+      setComprehensionError(saveError instanceof Error ? saveError.message : "The comprehension-check result could not be saved.");
     } finally {
+      comprehensionInFlight.current = false;
       setComprehensionSaving(false);
     }
   };
+
+  useEffect(() => {
+    if (!draftReady || comprehensionSaving || !comprehensionError || !pendingComprehensionRef.current || assignment?.status !== "claimed") return undefined;
+    const retry = () => {
+      if (navigator.onLine && document.visibilityState === "visible" && pendingComprehensionRef.current) {
+        handleComprehension(pendingComprehensionRef.current.selectedOption);
+      }
+    };
+    const timer = window.setTimeout(retry, jitterDelay(8_000));
+    window.addEventListener("online", retry);
+    document.addEventListener("visibilitychange", retry);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("online", retry);
+      document.removeEventListener("visibilitychange", retry);
+    };
+  }, [draftReady, comprehensionSaving, comprehensionError, assignment?.assignmentId, assignment?.status]);
 
   const showPhase2Instructions = () => {
     if (comprehension !== CORRECT_COMPREHENSION || comprehensionSaving) return;
@@ -1497,7 +1432,7 @@ export default function AdviceTransferTask() {
     const retry = () => {
       if (navigator.onLine && document.visibilityState === "visible") saveStage(pendingStageRef.current);
     };
-    const timeout = window.setTimeout(retry, 8_000);
+    const timeout = window.setTimeout(retry, jitterDelay(8_000));
     window.addEventListener("online", retry);
     document.addEventListener("visibilitychange", retry);
     return () => {
@@ -1514,7 +1449,7 @@ export default function AdviceTransferTask() {
         submitStudy();
       }
     };
-    const timeoutId = window.setTimeout(retryWhenReady, 8_000);
+    const timeoutId = window.setTimeout(retryWhenReady, jitterDelay(8_000));
     const onVisibilityChange = () => retryWhenReady();
     window.addEventListener("online", retryWhenReady);
     document.addEventListener("visibilitychange", onVisibilityChange);
@@ -1554,7 +1489,11 @@ export default function AdviceTransferTask() {
               Current queue position: <b>{waitingInfo.queuePosition}</b>
             </p>
           ) : null}
-          {waitingInfo?.reconnecting ? (
+          {waitingInfo?.closed ? (
+            <p className="transfer-reconnect-note">
+              New sessions are temporarily paused. This page will check automatically and continue when entry opens.
+            </p>
+          ) : waitingInfo?.reconnecting ? (
             <p className="transfer-reconnect-note">
               Reconnecting securely. This page will keep trying automatically.
             </p>

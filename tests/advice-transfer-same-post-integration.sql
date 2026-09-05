@@ -143,7 +143,7 @@ begin
   );
   perform pg_temp.expect_advice_transfer_stage_error(
     v_new ->> 'assignmentId', v_new_pid, 'phase2',
-    v_new_phase2 || jsonb_build_object('effort', 3), 'must not include an effort'
+    v_new_phase2 || jsonb_build_object('effort', 3), 'Effort is not collected for this assignment'
   );
   perform pg_temp.expect_advice_transfer_stage_error(
     v_new ->> 'assignmentId', v_new_pid, 'phase2',
@@ -154,7 +154,7 @@ begin
   v_result := public.save_advice_transfer_stage(
     v_new ->> 'assignmentId', v_new_pid, 'phase2', v_new_phase2
   );
-  if v_result ->> 'postTaskMeasure' is distinct from 'opinion_difficulty'
+  if v_result #>> '{snapshot,postTaskMeasure}' is distinct from 'opinion_difficulty'
      or v_result #>> '{snapshot,difficulty}' is distinct from '4'
      or v_result #> '{snapshot,effort}' is distinct from 'null'::jsonb then
     raise exception 'The new phase-2 snapshot did not isolate opinion difficulty';
@@ -258,13 +258,13 @@ begin
   perform pg_temp.expect_advice_transfer_stage_error(
     v_old_again ->> 'assignmentId', v_old_pid, 'phase2',
     v_old_phase2 || jsonb_build_object('difficulty', 4),
-    'must not include a difficulty'
+    'Opinion difficulty is not collected for this assignment'
   );
 
   v_result := public.save_advice_transfer_stage(
     v_old_again ->> 'assignmentId', v_old_pid, 'phase2', v_old_phase2
   );
-  if v_result ->> 'postTaskMeasure' is distinct from 'effort'
+  if v_result #>> '{snapshot,postTaskMeasure}' is distinct from 'effort'
      or v_result #>> '{snapshot,effort}' is distinct from '3'
      or v_result #> '{snapshot,difficulty}' is distinct from 'null'::jsonb then
     raise exception 'The historical phase-2 snapshot did not retain effort';

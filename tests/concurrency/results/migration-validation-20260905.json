@@ -1,0 +1,146 @@
+{
+  "at": "2026-09-05T20:05:59.394Z",
+  "results": [
+    {
+      "flavor": "baseline",
+      "test": "tests/advice-transfer-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "baseline",
+      "test": "tests/advice-transfer-v4-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "baseline",
+      "test": "tests/advice-transfer-same-post-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "baseline",
+      "test": "tests/advice-transfer-leading-label-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "full",
+      "test": "tests/advice-transfer-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "full",
+      "test": "tests/advice-transfer-v4-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "full",
+      "test": "tests/advice-transfer-same-post-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "full",
+      "test": "tests/advice-transfer-leading-label-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "full",
+      "idempotent": true,
+      "allFunctionHashesCorrect": true,
+      "grantsPreserved": true,
+      "recruitmentSettingsPreserved": true
+    },
+    {
+      "flavor": "checked",
+      "test": "tests/advice-transfer-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "checked",
+      "test": "tests/advice-transfer-v4-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "checked",
+      "test": "tests/advice-transfer-same-post-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "checked",
+      "test": "tests/advice-transfer-leading-label-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "checked",
+      "idempotent": true,
+      "allFunctionHashesCorrect": true,
+      "grantsPreserved": true,
+      "recruitmentSettingsPreserved": true
+    },
+    {
+      "flavor": "fresh",
+      "test": "tests/advice-transfer-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "fresh",
+      "test": "tests/advice-transfer-v4-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "fresh",
+      "test": "tests/advice-transfer-same-post-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "fresh",
+      "test": "tests/advice-transfer-leading-label-integration.sql",
+      "ok": true
+    },
+    {
+      "flavor": "fresh",
+      "idempotent": true,
+      "allFunctionHashesCorrect": true,
+      "grantsPreserved": true,
+      "recruitmentSettingsPreserved": true
+    },
+    {
+      "allThreeFlavorsExactlyEquivalent": true
+    },
+    {
+      "flavor": "live_full",
+      "actualHistoricalMigrationChain": [
+        "supabase_advice_transfer_v4_gist_migration.sql",
+        "supabase_advice_transfer_same_post_migration.sql",
+        "supabase_advice_transfer_opinion_difficulty_migration.sql",
+        "supabase_advice_transfer_leading_label_only_patch.sql"
+      ],
+      "idempotent": true,
+      "allFunctionHashesCorrect": true,
+      "grantsPreserved": true,
+      "historicalSnapshotsPreserved": true,
+      "historicalFinalSubmissionIdempotent": true,
+      "partialAndWrongPresentAuditRejected": true
+    },
+    {
+      "flavor": "live_checked",
+      "actualHistoricalMigrationChain": [
+        "supabase_advice_transfer_v4_gist_migration.sql",
+        "supabase_advice_transfer_same_post_migration.sql",
+        "supabase_advice_transfer_opinion_difficulty_migration.sql",
+        "supabase_advice_transfer_leading_label_only_patch.sql"
+      ],
+      "idempotent": true,
+      "allFunctionHashesCorrect": true,
+      "grantsPreserved": true,
+      "historicalSnapshotsPreserved": true,
+      "historicalFinalSubmissionIdempotent": true,
+      "partialAndWrongPresentAuditRejected": true
+    },
+    {
+      "liveFullAndCheckedExactlyEquivalent": true
+    },
+    {
+      "unexpectedSourceFailsClosedAtomically": true,
+      "error": "Unexpected installed definition: heartbeat_advice_transfer_assignment(text,text); inspect before upgrading"
+    }
+  ]
+}

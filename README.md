@@ -239,6 +239,42 @@ add only the number shown by the sum of `remaining`; the reopened tokens ensure
 replacements go to the correct cells. The target may be increased safely, but
 must not be lowered after tokens have been created.
 
+## Study 2 concurrency upgrade (5 September 2026)
+
+Apply `supabase_advice_transfer_concurrency_migration.sql` before deploying the
+new frontend. For the verified existing live database,
+`supabase_advice_transfer_concurrency_upgrade_checked.sql` performs the same
+upgrade with exact before/after function-body checks. It accepts both the
+committed setup and the known live migration variants and aborts atomically on
+an unknown version. Both scripts are safe to rerun. Existing historical locked
+snapshots remain immutable and can still be submitted after the upgrade.
+
+Independent participants now share a coordination gate for heartbeat, drafts,
+phase snapshots, and departure, while assignment rows serialize each person's
+own changes. Quota ownership changes retain an exclusive transaction gate and
+unique quota tokens. All public participant functions bound lock waits to
+250 ms; transient congestion is retried with jitter without raising the global
+anonymous statement timeout. Admission no longer waits behind an inactive
+queue head; existing eligible standby work retains priority for its own cell.
+
+The frontend serializes requests for one assignment, coalesces queued autosaves,
+prioritizes stage/final saves, and persists comprehension event IDs so a lost
+acknowledgement cannot count the same wrong answer twice. Temporary closed
+entry polls automatically; **formal recruitment must still be opened explicitly
+when the study is actually launched**.
+
+`supabase_advice_transfer_prepare_100.sql` prepares the authorized sample of
+20 cells x 5 responses while retaining closed recruitment. It refuses unexpected
+existing targets or formal participant records. The quota cap limits primary
+responses, not the number of people who may wait or produce paid standby work.
+More than 100 completed responses must never all be counted as primary quota.
+
+Real PostgreSQL load/lifecycle tests and recorded local results are documented
+in `tests/concurrency/README.md`. These use independent database connections and
+3-second anonymous statement timeouts. Local results validate behavior under
+the tested load and failure scenarios; they are not a measured capacity limit
+for the live Supabase Nano machine or its HTTP connection pool.
+
 ## Local Development
 
 ```bash

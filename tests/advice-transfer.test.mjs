@@ -281,10 +281,11 @@ test("the v4 flow appends the five core Qualtrics demographics before final subm
 });
 
 test("the Study 2 client survives traffic bursts and interrupted final saves", async () => {
-  const [client, css, timing] = await Promise.all([
+  const [client, css, timing, network] = await Promise.all([
     read("src/AdviceTransferTask.jsx"),
     read("src/advice-transfer.css"),
     read("src/useAdviceTransferTiming.js"),
+    read("src/advice-transfer-network.mjs"),
   ]);
 
   assert.match(client, /heartbeat_advice_transfer_assignment/);
@@ -294,9 +295,9 @@ test("the Study 2 client survives traffic bursts and interrupted final saves", a
   assert.match(client, /admissionStatus === "waiting"/);
   assert.match(client, /Current queue position/);
   assert.match(client, /HEARTBEAT_INTERVAL_MS = 30_000/);
-  assert.match(client, /keepalive: true/);
-  assert.match(client, /AbortController/);
-  assert.match(client, /data === null/);
+  assert.match(network, /keepalive: true/);
+  assert.match(network, /AbortController/);
+  assert.match(network, /data === null/);
   assert.match(client, /result\.saved === false/);
   assert.match(client, /result\.active === false/);
   assert.match(client, /p_draft_payload: departureDraft/);
